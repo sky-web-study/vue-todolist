@@ -6,12 +6,10 @@
           name="todo"
           type="text"
           v-model="todoItem"
-          ref="input"
           v-on:keyup.enter="addText"
           placeholder="Todoを入力してください。"
           id="todoInput"
         />
-        <p>{{ todomessage }}</p>
       </div>
       <div class="dolist" v-if="isActive">
         <h2 class="listTitle">{{ dolist }}</h2>
@@ -30,7 +28,7 @@
         <h2 class="listTitle">{{ donelist }}</h2>
         <ul class="donelist-contents" v-for="(todo, index) in donelists" v-bind:key="index">
           <li>{{ index + 1}}:
-              <input type="checkbox" id="checkbox" v-model="checked" v-on:click="checkDone(index)">
+              <input type="checkbox" id="checkbox" v-model="doneChecked" v-on:click="checkDone(index)">
               {{ todo.text }}<button v-on:click="removeDone(index)">delete</button></li>
           <!-- <li class="donelist-item">
             <input type="checkbox" class="list-chk" />
@@ -53,14 +51,16 @@ export default {
       donelist: "★Done★ ",
       todoItem: '',
       list:[],
-      donelists:[]
+      donelists:[],
+      checked: false,
+      doneChecked: true
     };
   },
   methods: {
     addText() {
       if(this.todoItem){
         this.list.push({
-          text: this.$refs.input.value,
+          text: this.todoItem,
         });
         this.isActive = true;
       }
