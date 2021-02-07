@@ -13,7 +13,7 @@
       </div>
       <div class="dolist" v-if="isActive">
         <h2 class="listTitle">{{ dolist }}</h2>
-        <ul class="dolist-contents" v-for="(todo, index) in list" v-bind:key="index">
+        <ul class="dolist-contents" v-for="(todo, index) in list" v-bind:key="todo.createDate">
           <li>{{ index + 1}}:
               <input type="checkbox" id="checkbox" v-model="checked" v-on:click="checkTodo(index)">
               {{ todo.text }}<button v-on:click="removeTodo(index)">delete</button></li>
@@ -26,7 +26,7 @@
       </div>
       <div class="donelist" v-if="isDoneActive">
         <h2 class="listTitle">{{ donelist }}</h2>
-        <ul class="donelist-contents" v-for="(todo, index) in donelists" v-bind:key="index">
+        <ul class="donelist-contents" v-for="(todo, index) in donelists" v-bind:key="todo.createDate">
           <li>{{ index + 1}}:
               <input type="checkbox" id="checkbox" v-model="doneChecked" v-on:click="checkDone(index)">
               {{ todo.text }}<button v-on:click="removeDone(index)">delete</button></li>
@@ -61,6 +61,7 @@ export default {
       if(this.todoItem){
         this.list.push({
           text: this.todoItem,
+          createDate: Date.now(),
         });
         this.isActive = true;
       }
