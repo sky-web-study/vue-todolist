@@ -1,22 +1,12 @@
 <template>
     <div class="container">
-      <div class="inputMenu">
-        <h1 class="inputMenuTitle">{{ title }}</h1>
-        <input
-          name="todo"
-          type="text"
-          v-model="todoItem"
-          v-on:keyup.enter="addText"
-          placeholder="Todoを入力してください。"
-          id="todoInput"
-        />
-      </div>
+      <inputMenu @todoList = "addList"></inputMenu>
       <div class="dolist" v-if="isActive">
-        <h2 class="listTitle">{{ dolist }}</h2>
-        <ul class="dolist-contents" v-for="(todo, index) in list" v-bind:key="todo.createDate">
+        <h2 class="listTitle">☆Do☆</h2>
+        <ul class="dolist-contents" v-for="(todo, index) in list" :key="todo.createDate">
           <li>{{ index + 1}}:
-              <input type="checkbox" id="checkbox" v-model="checked" v-on:click="checkTodo(index)">
-              {{ todo.text }}<button v-on:click="removeTodo(index)">delete</button></li>
+              <input type="checkbox" id="checkbox" @click="checkTodo(index)">
+              {{ todo.text }}<DeleteIcon @click="removeTodo(index)"></DeleteIcon></li>
           <!-- <li class="dolist-item">
             <input type="checkbox" class="list-chk" />
             <span class="dolist-txt">1234567890</span>
@@ -25,11 +15,11 @@
         </ul>
       </div>
       <div class="donelist" v-if="isDoneActive">
-        <h2 class="listTitle">{{ donelist }}</h2>
-        <ul class="donelist-contents" v-for="(todo, index) in donelists" v-bind:key="todo.createDate">
+        <h2 class="listTitle">★Done★</h2>
+        <ul class="donelist-contents" v-for="(todo, index) in donelists" :key="todo.createDate">
           <li>{{ index + 1}}:
-              <input type="checkbox" id="checkbox" v-model="doneChecked" v-on:click="checkDone(index)">
-              {{ todo.text }}<button v-on:click="removeDone(index)">delete</button></li>
+              <input type="checkbox" id="checkbox" @click="checkDone(index)">
+              {{ todo.text }}<DeleteIcon @click="removeDone(index)"></DeleteIcon></li>
           <!-- <li class="donelist-item">
             <input type="checkbox" class="list-chk" />
             <span class="donelist-txt">123456789012345678901234567890</span>
@@ -41,31 +31,29 @@
 </template>
 
 <script>
+import inputMenu from "./components/InputMenu.vue";
+import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 export default {
+  name: 'App',
+  components: {
+    inputMenu,
+    DeleteIcon
+  },
   data() {
     return {
-      title: "Todo List",
       isActive: false,
       isDoneActive: false,
-      dolist: "☆Do☆",
-      donelist: "★Done★ ",
-      todoItem: '',
       list:[],
-      donelists:[],
-      checked: false,
-      doneChecked: true
+      donelists:[]
     };
   },
   methods: {
-    addText() {
-      if(this.todoItem){
+    addList(value) {
         this.list.push({
-          text: this.todoItem,
+          text: value,
           createDate: Date.now(),
         });
         this.isActive = true;
-      }
-      this.todoItem = '';
     },
     checkTodo(index) {
       this.donelists.push(this.list[index]);
@@ -113,25 +101,6 @@ export default {
   border-radius: 16px;
   margin: 160px auto 0px auto;
 }
-
-.inputMenu {
-  height: 120px;
-  padding: 8px 32px;
-  user-select: none;
-}
-
-.inputMenuTitle {
-  font-size: 24px;
-  margin: 16px 8px;
-}
-
-#todoInput {
-  width: 95%;
-  font-size: 16px;
-  margin-bottom: 16px;
-  outline: none;
-}
-
 .dolist,
 .donelist {
   width: 100%;
@@ -153,29 +122,4 @@ export default {
   padding: 8px 32px;
   margin: 0px 16px;
 }
-
-/* .dolist-item,
-.donelist-item {
-  display: flex;
-  align-items: flex-start;
-  padding-bottom: 16px;
-} */
-
-/* .list-chk {
-  margin-right: 16px;
-} */
-
-/* .dolist-txt,
-.donelist-txt {
-  word-break: break-all;
-} */
-
-/* .material-icons {
-  color: grey;
-  background-color: white;
-  cursor: pointer;
-  margin-left: 16px;
-  padding: 0;
-  border: none;
-} */
 </style>
