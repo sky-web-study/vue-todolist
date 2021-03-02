@@ -1,34 +1,33 @@
 <template>
-      <div class="inputMenu">
-        <h1 class="inputMenuTitle">Todo List</h1>
-        <input
-          name="todo"
-          type="text"
-          v-model="todoItem"
-          v-on:keyup.enter="ipnutText"
-          placeholder="Todoを入力してください。"
-          id="todoInput"
-        />
-      </div>
+  <div class="inputMenu">
+    <h1 class="inputMenuTitle">Todo List</h1>
+    <input
+      name="todo"
+      type="text"
+      v-model="todoItem"
+      v-on:keyup.enter="ipnutText"
+      placeholder="Todoを入力してください。"
+      id="todoInput"
+    />
+  </div>
 </template>
 
 <script>
-
 export default {
-  name: 'InputMenu',
+  name: "InputMenu",
   data() {
     return {
-      todoItem: '',
+      todoItem: "",
     };
   },
   methods: {
     ipnutText() {
-      if(this.todoItem){
-        this.$emit('todoList', this.todoItem)
+      if (this.todoItem) {
+        this.$emit("todoList", this.todoItem);
       }
-      this.todoItem = '';
-    }
-  }
+      this.todoItem = "";
+    },
+  },
 };
 </script>
 
