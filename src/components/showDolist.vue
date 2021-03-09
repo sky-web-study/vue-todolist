@@ -1,13 +1,12 @@
 <template>
   <div class="dolist" v-if="isActiveFlg">
-    <h2 class="listTitle">☆Do☆</h2>
+    <h2 class="listTitle" v-if="isDoShow">☆Do☆</h2>
     <ul
       class="dolist-contents"
       v-for="(todo, index) in todoList"
       :key="todo.createDate"
     >
       <li v-if="!todo.isDone">
-        {{ index + 1 }}:
         <input type="checkbox" id="checkbox" @click="checkTodo(index)" />
         {{ todo.text }}<DeleteIcon @click="removeTodo(index)"></DeleteIcon>
       </li>
@@ -27,22 +26,22 @@ export default {
     return {
     };
   },
+  computed: {
+    isDoShow: function() {
+      if(this.todoList.filter( todo => !todo.isDone ).length > 0) {
+        return true;
+      }else {
+        return false;
+      }
+    }
+  },
   methods: {
     checkTodo(index) {
       this.todoList[index].isDone = true;
-      this.$emit("updateDonelist", this.todoList[index]);
       this.$emit("changeDoneFlg", true);
-      this.todoList.splice(index, 1);
-
-      if (this.todoList.length == 0) {
-        this.$emit("changeFlg", false);
-      }
     },
     removeTodo(index) {
       this.todoList.splice(index, 1);
-      if (this.todoList.length == 0) {
-        this.$emit("changeFlg", false);
-      }
     },
   },
 };

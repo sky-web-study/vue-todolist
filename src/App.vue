@@ -6,14 +6,12 @@
       :todoList="list"
       @changeFlg="changeIsActive"
       @changeDoneFlg="changeIsDoneActive"
-      @updateDonelist="pushDoneList"
     ></showDolist>
     <showDonelist
       :isDoneActiveFlg="isDoneActive"
-      :toDoneList="donelist"
+      :toDoneList="list"
       @changeFlg="changeIsActive"
       @changeDoneFlg="changeIsDoneActive"
-      @updateDolist="pushDoList"
     ></showDonelist>
   </div>
 </template>
@@ -34,7 +32,6 @@ export default {
       isActive: false,
       isDoneActive: false,
       list: [],
-      donelist: [],
     };
   },
   methods: {
@@ -52,12 +49,6 @@ export default {
     changeIsDoneActive(value) {
       this.isDoneActive = value;
     },
-    pushDoList(todo){
-      this.list.push(todo);
-    },
-    pushDoneList(todo){
-      this.donelist.push(todo);
-    }
   },
 };
 </script>
