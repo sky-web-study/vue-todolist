@@ -41,6 +41,7 @@ export default {
     addList(value) {
       this.list.push({
         text: value,
+        isDone: false,
         createDate: Date.now(),
       });
       this.isActive = true;

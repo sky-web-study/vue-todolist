@@ -6,7 +6,7 @@
       v-for="(todo, index) in toDoneList"
       :key="todo.createDate"
     >
-      <li>
+      <li v-if="todo.isDone">
         {{ index + 1 }}:
         <input type="checkbox" id="checkbox" @click="checkDone(index)" />
         {{ todo.text }}<DeleteIcon @click="removeDone(index)"></DeleteIcon>
@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     checkDone(index) {
+      this.toDoneList[index].isDone = false;
       this.$emit("updateDolist", this.toDoneList[index]);
       this.$emit("changeFlg", true);
       this.toDoneList.splice(index, 1);

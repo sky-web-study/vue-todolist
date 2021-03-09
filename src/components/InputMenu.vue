@@ -9,6 +9,7 @@
       placeholder="Todoを入力してください。"
       id="todoInput"
     />
+    <p class="error-todo" v-show="!isValid">※Todoの項目が未入力です</p>
   </div>
 </template>
 
@@ -20,9 +21,18 @@ export default {
       todoItem: "",
     };
   },
+  computed: {
+    isValid: function () {
+      let valid = true;
+      if(this.todoItem.length < 1){
+        valid = false;
+      }
+      return valid;
+    },
+  },
   methods: {
     ipnutText() {
-      if (this.todoItem) {
+      if(this.isValid) {
         this.$emit("todoList", this.todoItem);
       }
       this.todoItem = "";
@@ -47,7 +57,12 @@ export default {
 #todoInput {
   width: 95%;
   font-size: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   outline: none;
+}
+
+.error-todo {
+  margin-top: 0;
+  color: red;
 }
 </style>
